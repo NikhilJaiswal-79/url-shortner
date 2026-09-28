@@ -1,0 +1,29 @@
+{
+  "name": "@kiro/url-shortener-power",
+  "version": "1.0.0",
+  "description": "Kiro Power for URL Shortener projects - Includes tools, skills, and best practices",
+  "main": "power.json",
+  "keywords": [
+    "kiro",
+    "kiro-power",
+    "url-shortener",
+    "rest-api",
+    "nodejs"
+  ],
+  "author": "",
+  "license": "MIT",
+  "homepage": "https://github.com/yourusername/kiro-url-shortener-power",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/kiro-url-shortener-power.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/kiro-url-shortener-power/issues"
+  },
+  "kiro": {
+    "version": ">=1.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

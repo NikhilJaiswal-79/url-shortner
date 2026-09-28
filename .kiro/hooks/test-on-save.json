@@ -1,0 +1,16 @@
+{
+  "version": "v1",
+  "hooks": [
+    {
+      "name": "Run Tests on Source File Change",
+      "description": "Automatically runs unit tests when source files are modified",
+      "trigger": "PostFileSave",
+      "matcher": "src/.*\\.js$",
+      "action": {
+        "type": "command",
+        "command": "cd e:\\kiro\\url-shortener && npm run test:unit -- --passWithNoTests",
+        "timeout": 60
+      }
+    }
+  ]
+}

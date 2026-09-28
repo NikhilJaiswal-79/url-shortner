@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>URL Shortener - Kiro Lessons Demo</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+    
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    
+    header {
+      text-align: center;
+      color: white;
+      padding: 40px 20px;
+    }
+    
+    header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+    
+    header p {
+      opacity: 0.9;
+      font-size: 1.1rem;
+    }
+    
+    .lessons-badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.2);
+      padding: 5px 15px;
+      border-radius: 20px;
+      margin-top: 15px;
+      font-size: 0.9rem;
+    }
+    
+    .card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+      padding: 30px;
+      margin-bottom: 20px;
+    }
+    
+    .card h2 {
+      color: #333;
+      margin-bottom: 20px;
+      font-size: 1.3rem;
+    }
+    
+    .form-group {
+      margin-bottom: 15px;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      color: #555;
+      font-weight: 500;
+    }
+    
+    .form-group input {
+      width: 100%;
+      padding: 12px 15px;
+      border: 2px solid #e1e5e9;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: border-color 0.3s;
+    }
+    
+    .form-group input:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+    
+    .btn {
+      padding: 12px 25px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+    
+    .btn-primary {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
+    
+    .btn-secondary {
+      background: #e1e5e9;
+      color: #333;
+    }
+    
+    .result {
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 8px;
+      display: none;
+    }
+    
+    .result.success {
+      background: #d4edda;
+      border: 1px solid #c3e6cb;
+      display: block;
+    }
+    
+    .result.error {
+      background: #f8d7da;
+      border: 1px solid #f5c6cb;
+      display: block;
+    }
+    
+    .result .short-url {
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #667eea;
+      word-break: break-all;
+    }
+    
+    .result .stats {
+      margin-top: 10px;
+      font-size: 0.9rem;
+      color: #555;
+    }
+    
+    .urls-list {
+      max-height: 400px;
+      overflow-y: auto;
+    }
+    
+    .url-item {
+      padding: 15px;
+      border: 1px solid #e1e5e9;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      transition: box-shadow 0.3s;
+    }
+    
+    .url-item:hover {
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    .url-item .original {
+      color: #333;
+      word-break: break-all;
+      margin-bottom: 8px;
+    }
+    
+    .url-item .short {
+      color: #667eea;
+      font-weight: 500;
+    }
+    
+    .url-item .meta {
+      font-size: 0.85rem;
+      color: #888;
+      margin-top: 8px;
+      display: flex;
+      gap: 15px;
+    }
+    
+    .url-item .actions {
+      margin-top: 10px;
+    }
+    
+    .url-item .btn {
+      padding: 6px 12px;
+      font-size: 0.85rem;
+    }
+    
+    .api-section {
+      background: #f8f9fa;
+      padding: 15px;
+      border-radius: 8px;
+      margin-top: 20px;
+    }
+    
+    .api-section h3 {
+      color: #333;
+      margin-bottom: 10px;
+      font-size: 1rem;
+    }
+    
+    .api-endpoint {
+      font-family: monospace;
+      background: #e9ecef;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 0.85rem;
+    }
+    
+    .method {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: bold;
+      margin-right: 8px;
+    }
+    
+    .method.post { background: #28a745; color: white; }
+    .method.get { background: #007bff; color: white; }
+    .method.delete { background: #dc3545; color: white; }
+    
+    footer {
+      text-align: center;
+      color: white;
+      padding: 20px;
+      opacity: 0.8;
+    }
+    
+    .loading {
+      display: none;
+      text-align: center;
+      padding: 20px;
+    }
+    
+    .loading.show {
+      display: block;
+    }
+    
+    .spinner {
+      border: 3px solid rgba(255,255,255,0.3);
+      border-top: 3px solid white;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 10px;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>🔗 URL Shortener</h1>
+      <p>A simple and fast URL shortening service</p>
+    </header>
+    
+    <!-- Create URL Card -->
+    <div class="card">
+      <h2>✂️ Create Short URL</h2>
+      <div class="form-group">
+        <label for="originalUrl">Long URL</label>
+        <input type="url" id="originalUrl" placeholder="https://example.com/very/long/url/that/needs/shortening">
+      </div>
+      <button class="btn btn-primary" onclick="createShortUrl()">Shorten URL</button>
+      
+      <div class="loading" id="loading">
+        <div class="spinner"></div>
+        <p>Shortening...</p>
+      </div>
+      
+      <div class="result" id="result"></div>
+    </div>
+    
+    <!-- URLs List Card -->
+    <div class="card">
+      <h2>📋 All Shortened URLs</h2>
+      <div style="margin-bottom: 15px;">
+        <button class="btn btn-secondary" onclick="loadUrls()">🔄 Refresh</button>
+      </div>
+      <div class="urls-list" id="urlsList">
+        <p style="color: #888; text-align: center; padding: 20px;">No URLs created yet</p>
+      </div>
+    </div>
+    
+    <!-- API Documentation Card -->
+    <div class="card">
+      <h2>🔧 API Endpoints</h2>
+      <div class="api-section">
+        <h3>REST API Available</h3>
+        <p style="margin-bottom: 10px; color: #666;">The API is fully functional. Use these endpoints:</p>
+        <div style="margin-bottom: 10px;">
+          <span class="method post">POST</span>
+          <span class="api-endpoint">/api/urls</span>
+          <span style="margin-left: 10px; color: #666;">- Create short URL</span>
+        </div>
+        <div style="margin-bottom: 10px;">
+          <span class="method get">GET</span>
+          <span class="api-endpoint">/api/urls</span>
+          <span style="margin-left: 10px; color: #666;">- List all URLs</span>
+        </div>
+        <div style="margin-bottom: 10px;">
+          <span class="method get">GET</span>
+          <span class="api-endpoint">/api/urls/:code</span>
+          <span style="margin-left: 10px; color: #666;">- Get URL details</span>
+        </div>
+        <div style="margin-bottom: 10px;">
+          <span class="method get">GET</span>
+          <span class="api-endpoint">/:code</span>
+          <span style="margin-left: 10px; color: #666;">- Redirect to original URL</span>
+        </div>
+        <div style="margin-bottom: 10px;">
+          <span class="method delete">DELETE</span>
+          <span class="api-endpoint">/api/urls/:code</span>
+          <span style="margin-left: 10px; color: #666;">- Delete URL</span>
+        </div>
+      </div>
+    </div>
+    
+    
+    <footer>
+      <p>Built with Kiro • Demonstrating 7 Kiro Lessons</p>
+    </footer>
+  </div>
+  
+  <script>
+    const API_BASE = '/api';
+    
+    // Create short URL
+    async function createShortUrl() {
+      const originalUrl = document.getElementById('originalUrl').value.trim();
+      const resultDiv = document.getElementById('result');
+      const loadingDiv = document.getElementById('loading');
+      
+      // Reset display
+      resultDiv.className = 'result';
+      resultDiv.innerHTML = '';
+      loadingDiv.classList.add('show');
+      
+      if (!originalUrl) {
+        loadingDiv.classList.remove('show');
+        resultDiv.className = 'result error';
+        resultDiv.innerHTML = '<strong>Error:</strong> Please enter a URL';
+        return;
+      }
+      
+      try {
+        const response = await fetch(`${API_BASE}/urls`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ originalUrl })
+        });
+        
+        const data = await response.json();
+        
+        loadingDiv.classList.remove('show');
+        
+        if (data.success) {
+          const url = data.data;
+          resultDiv.className = 'result success';
+          resultDiv.innerHTML = `
+            <div>✅ URL Shortened Successfully!</div>
+            <div class="short-url" style="margin-top: 10px;">
+              <a href="${url.shortUrl}" target="_blank">${url.shortUrl}</a>
+            </div>
+            <div class="stats">
+              Original: ${url.originalUrl.substring(0, 50)}${url.originalUrl.length > 50 ? '...' : ''}
+            </div>
+          `;
+          document.getElementById('originalUrl').value = '';
+          loadUrls();
+        } else {
+          resultDiv.className = 'result error';
+          resultDiv.innerHTML = `<strong>Error:</strong> ${data.error.message}`;
+        }
+      } catch (error) {
+        loadingDiv.classList.remove('show');
+        resultDiv.className = 'result error';
+        resultDiv.innerHTML = `<strong>Error:</strong> ${error.message}`;
+      }
+    }
+    
+    // Load all URLs
+    async function loadUrls() {
+      const listDiv = document.getElementById('urlsList');
+      
+      try {
+        const response = await fetch(`${API_BASE}/urls`);
+        const data = await response.json();
+        
+        if (data.success && data.data.length > 0) {
+          listDiv.innerHTML = data.data.map(url => `
+            <div class="url-item" data-code="${url.shortCode}">
+              <div class="original"><strong>Original:</strong> ${url.originalUrl}</div>
+              <div class="short">
+                <a href="${url.shortUrl}" target="_blank">${url.shortUrl}</a>
+              </div>
+              <div class="meta">
+                <span>📅 Created: ${new Date(url.createdAt).toLocaleDateString()}</span>
+                <span>👆 Clicks: ${url.clicks}</span>
+              </div>
+              <div class="actions">
+                <button class="btn btn-secondary" onclick="copyToClipboard('${url.shortUrl}')">📋 Copy</button>
+                <button class="btn btn-secondary" style="background: #f8d7da;" onclick="deleteUrl('${url.shortCode}')">🗑️ Delete</button>
+              </div>
+            </div>
+          `).join('');
+        } else {
+          listDiv.innerHTML = '<p style="color: #888; text-align: center; padding: 20px;">No URLs created yet</p>';
+        }
+      } catch (error) {
+        listDiv.innerHTML = `<p style="color: #dc3545; text-align: center;">Error loading URLs: ${error.message}</p>`;
+      }
+    }
+    
+    // Delete URL
+    async function deleteUrl(shortCode) {
+      if (!confirm(`Are you sure you want to delete ${shortCode}?`)) return;
+      
+      try {
+        const response = await fetch(`${API_BASE}/urls/${shortCode}`, {
+          method: 'DELETE'
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+          loadUrls();
+        } else {
+          alert(`Error: ${data.error.message}`);
+        }
+      } catch (error) {
+        alert(`Error: ${error.message}`);
+      }
+    }
+    
+    // Copy to clipboard
+    function copyToClipboard(text) {
+      navigator.clipboard.writeText(text).then(() => {
+        alert('Copied to clipboard!');
+      }).catch(err => {
+        console.error('Failed to copy:', err);
+      });
+    }
+    
+    // Load URLs on page load
+    document.addEventListener('DOMContentLoaded', loadUrls);
+  </script>
+</body>
+</html>

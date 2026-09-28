@@ -1,0 +1,16 @@
+{
+  "version": "v1",
+  "hooks": [
+    {
+      "name": "Lint JavaScript Files on Save",
+      "description": "Runs ESLint when JavaScript files are saved to catch code quality issues early",
+      "trigger": "PostFileSave",
+      "matcher": "\\.(js|mjs)$",
+      "action": {
+        "type": "command",
+        "command": "cd e:\\kiro\\url-shortener && npm run lint",
+        "timeout": 60
+      }
+    }
+  ]
+}

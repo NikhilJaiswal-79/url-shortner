@@ -1,0 +1,39 @@
+{
+  "mcpServers": {
+    "url-validator": {
+      "command": "uvx",
+      "args": [
+        "mcp-server-validate@latest"
+      ],
+      "disabled": false,
+      "env": {
+        "LOG_LEVEL": "INFO"
+      },
+      "description": "Validates URLs and checks for broken links",
+      "allowedAgents": ["code-reviewer", "default"]
+    },
+    "aws-docs": {
+      "command": "uvx",
+      "args": [
+        "awslabs.aws-documentation-mcp-server@latest"
+      ],
+      "disabled": false,
+      "env": {
+        "FASTMCP_LOG_LEVEL": "ERROR"
+      },
+      "description": "AWS documentation for deployment guides",
+      "allowedAgents": ["default"]
+    },
+    "rest-api-tools": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-rest@latest"
+      ],
+      "disabled": false,
+      "env": {},
+      "description": "REST API testing and documentation tools",
+      "allowedAgents": ["default", "code-reviewer"]
+    }
+  }
+}

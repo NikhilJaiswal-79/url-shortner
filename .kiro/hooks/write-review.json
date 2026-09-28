@@ -1,0 +1,15 @@
+{
+  "version": "v1",
+  "hooks": [
+    {
+      "name": "Review Code Before Write Operations",
+      "description": "Reviews write operations to ensure they follow coding standards",
+      "trigger": "PreToolUse",
+      "matcher": "fs_write|str_replace|fs_append",
+      "action": {
+        "type": "agent",
+        "prompt": "Review this file write operation and verify it follows the project standards defined in .kiro/steering/project-standards.md:\n- ES modules syntax (import/export)\n- Async/await pattern with try/catch\n- Proper error handling\n- Consistent naming conventions\n- REST API response format standards\n\nReturn 'APPROVED' if the operation looks correct, or 'BLOCKED' with a brief reason for any issues found."
+      }
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "name": "code-reviewer",
+  "version": "1.0.0",
+  "description": "Specialized agent for Node.js code reviews with security and linting focus",
+  "model": "mini-max",
+  "systemPrompt": "You are a code review specialist for Node.js/Express applications. Focus on:\n1. Code quality and best practices\n2. Security vulnerabilities\n3. Performance issues\n4. API design consistency\n5. Test coverage\n\nYou MUST NOT modify files directly. Only provide review feedback.",
+  "contextFiles": [
+    ".kiro/steering/project-standards.md"
+  ],
+  "tools": {
+    "allowed": [
+      "read_file",
+      "read_code",
+      "grep_search",
+      "list_directory",
+      "file_search"
+    ],
+    "denied": [
+      "fs_write",
+      "str_replace",
+      "fs_append",
+      "delete_file",
+      "smart_relocate"
+    ]
+  },
+  "mcpServers": [
+    "url-validator",
+    "rest-api-tools"
+  ],
+  "hooks": [
+    "lint-on-save.json",
+    "test-on-save.json"
+  ],
+  "preferences": {
+    "autoApprove": false,
+    "requireConfirmation": true,
+    "timeoutSeconds": 120
+  }
+}

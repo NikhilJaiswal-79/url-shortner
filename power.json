@@ -1,0 +1,124 @@
+{
+  "name": "url-shortener-kiro-power",
+  "version": "1.0.0",
+  "description": "Kiro Power for URL Shortener project - Demonstrates Lesson 5: Powers",
+  "keywords": ["url-shortener", "rest-api", "nodejs"],
+  "author": "",
+  "license": "MIT",
+  "kiro": {
+    "version": ">=1.0.0"
+  },
+  "powerPackage": ".kiro/power/",
+  "manifest": {
+    "name": "URL Shortener Kiro Power",
+    "description": "A Kiro power that provides tools and skills for building URL Shortener projects",
+    "version": "1.0.0",
+    "activation": {
+      "keywords": ["url", "shortener", "api", "redirect"]
+    },
+    "skills": [
+      {
+        "name": "task-management",
+        "description": "Track implementation tasks and progress"
+      },
+      {
+        "name": "progress-tracking",
+        "description": "Monitor completion status of features"
+      },
+      {
+        "name": "documentation",
+        "description": "Generate and maintain project documentation"
+      },
+      {
+        "name": "api-docs",
+        "description": "Create API documentation for endpoints"
+      }
+    ],
+    "tools": [
+      {
+        "name": "mark-complete",
+        "description": "Mark a task as completed",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "taskId": {
+              "type": "string",
+              "description": "The task ID to mark as complete"
+            }
+          },
+          "required": ["taskId"]
+        }
+      },
+      {
+        "name": "list-tasks",
+        "description": "List all pending and completed tasks",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "string",
+              "enum": ["all", "pending", "completed"],
+              "default": "all"
+            }
+          }
+        }
+      },
+      {
+        "name": "add-task",
+        "description": "Add a new task to the task list",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "description": {
+              "type": "string",
+              "description": "Task description"
+            },
+            "category": {
+              "type": "string",
+              "description": "Task category (feature, bug, refactor, docs)"
+            },
+            "priority": {
+              "type": "string",
+              "enum": ["low", "medium", "high"],
+              "default": "medium"
+            }
+          },
+          "required": ["description"]
+        }
+      },
+      {
+        "name": "generate-docs",
+        "description": "Generate JSDoc documentation for source files",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "inputDir": {
+              "type": "string",
+              "description": "Source directory to document",
+              "default": "src/"
+            },
+            "outputDir": {
+              "type": "string",
+              "description": "Output directory for docs",
+              "default": "docs/"
+            }
+          }
+        }
+      },
+      {
+        "name": "validate-docs",
+        "description": "Validate JSDoc comments in source files",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "strict": {
+              "type": "boolean",
+              "description": "Use strict validation",
+              "default": true
+            }
+          }
+        }
+      }
+    ]
+  }
+}

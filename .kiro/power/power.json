@@ -1,0 +1,151 @@
+{
+  "name": "@kiro/url-shortener-power",
+  "version": "1.0.0",
+  "description": "Kiro Power for URL Shortener projects - Complete toolkit for building URL Shortener services",
+  "main": "power.json",
+  "keywords": [
+    "kiro",
+    "kiro-power",
+    "url-shortener",
+    "short-url",
+    "rest-api",
+    "nodejs",
+    "express"
+  ],
+  "author": "",
+  "license": "MIT",
+  "homepage": "https://github.com/yourusername/kiro-url-shortener-power",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/kiro-url-shortener-power.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/kiro-url-shortener-power/issues"
+  },
+  "kiro": {
+    "version": ">=1.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "manifest": {
+    "name": "URL Shortener Kiro Power",
+    "description": "Complete toolkit for building URL Shortener services with Node.js and Express",
+    "version": "1.0.0",
+    "activation": {
+      "keywords": [
+        "url-shortener",
+        "short-url",
+        "url",
+        "redirect",
+        "link-shortener",
+        "api"
+      ]
+    },
+    "skills": [
+      {
+        "name": "url-shortener-architecture",
+        "description": "Best practices for URL shortener design and implementation"
+      },
+      {
+        "name": "rest-api-design",
+        "description": "REST API patterns and best practices for URL services"
+      },
+      {
+        "name": "testing-url-services",
+        "description": "Testing strategies including unit and property-based tests"
+      },
+      {
+        "name": "url-shortener-production",
+        "description": "Production considerations: scaling, caching, and deployment"
+      }
+    ],
+    "tools": [
+      {
+        "name": "generate-short-code",
+        "description": "Generate a unique URL-safe short code",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "length": {
+              "type": "integer",
+              "description": "Length of short code (default: 8)",
+              "default": 8
+            }
+          }
+        }
+      },
+      {
+        "name": "validate-url",
+        "description": "Validate URL format and accessibility",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "url": {
+              "type": "string",
+              "description": "URL to validate"
+            },
+            "checkAccess": {
+              "type": "boolean",
+              "description": "Check if URL is accessible",
+              "default": false
+            }
+          },
+          "required": ["url"]
+        }
+      },
+      {
+        "name": "create-url-model",
+        "description": "Generate a URL model with validation",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "originalUrl": {
+              "type": "string",
+              "description": "The original long URL"
+            },
+            "shortCode": {
+              "type": "string",
+              "description": "Optional custom short code"
+            }
+          },
+          "required": ["originalUrl"]
+        }
+      }
+    ],
+    "templates": [
+      {
+        "name": "express-server",
+        "description": "Express server template with URL shortener routes",
+        "file": "templates/express-server.js"
+      },
+      {
+        "name": "url-store",
+        "description": "In-memory URL store implementation",
+        "file": "templates/url-store.js"
+      },
+      {
+        "name": "url-routes",
+        "description": "RESTful routes for URL CRUD operations",
+        "file": "templates/url-routes.js"
+      }
+    ],
+    "examples": [
+      {
+        "name": "simple",
+        "description": "Minimal in-memory URL shortener",
+        "folder": "examples/simple"
+      },
+      {
+        "name": "production",
+        "description": "Production-ready with PostgreSQL and Docker",
+        "folder": "examples/production"
+      },
+      {
+        "name": "testing",
+        "description": "Comprehensive testing patterns",
+        "folder": "examples/testing"
+      }
+    ]
+  }
+}
